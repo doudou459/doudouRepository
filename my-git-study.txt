@@ -5,3 +5,5 @@
   git commit -m  "ssssss"
 4.git log  查看历史记录
 5.git reset --hard HEAD  HEAD^ HEAD^^  HEAD~100  版本回退用HEAD
+6.git reset --hard  commit_id 通过版本ID 回退到固定ID号的版本
+7. git reflog 查看历史命令
