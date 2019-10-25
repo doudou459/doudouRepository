@@ -7,3 +7,4 @@
 5.git reset --hard HEAD  HEAD^ HEAD^^  HEAD~100  版本回退用HEAD
 6.git reset --hard  commit_id 通过版本ID 回退到固定ID号的版本
 7. git reflog 查看历史命令
+8.缓存区的概念——git add 是将修改提交到缓存区 git commit是将缓存区的修改提交    git管理的是文件的修改  而不是文件
