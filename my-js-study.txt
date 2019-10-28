@@ -1,2 +1,68 @@
-一.冒泡算法
-二.递归算法
+1.字符串操作
+  str.toUpperCase()把字符串全部变为大写
+  str.toLowerCase()把字符串全部变为小写
+  str.indexOf("s")返回字符s在str中的位置，如果str中没有s则返回-1
+  str.slice(n,m)返回索引n-m之间的字符串
+  str.slice(n)返回索引n到结束的字符串
+  str.substring(n,m)返回索引n-m之间的字符串
+  str.substring(n)返回索引n到结束的字符串
+  str.substr(n,m)   参数1: 索引, 参数2:要截取的长度
+  str.split(",")将字符串以 , 分割成数组
+  str.replace(/[0-9]+/g,"b")将str中的a替换为b
+  str.trim()去除str中前后的空格
+  str.search(/[0-9]+/g) // 返回匹配到的第一个字符串的索引, 没有匹配到, 返回-1
+
+  ES6新方法
+  str.includes("a") 检测字符串中是否包含指定字符串，包含返回true，否则返回false
+  str.startWith("a")检测字符串是否以指定字符串开头，返回true/false
+  str.endsWith("a")检测字符串是否以指定字符串结尾，返回true/false 
+
+2.数组操作
+  array.indexOf(param) 搜索指定元素的位置，未找到则返回-1
+  array.slice(n,m) //截取数组  并返回一个新的数组  
+  array.slice(n)//截取数组     并返回一个新的数组
+  array.push(p)//向数组末尾增加若干元素
+  array.pop（）//删除最后一个元素
+  array.unshift(p)//向数组头部增加若干元素
+  array.shift()//删除数组第一个元素
+  array.sort()//按unicode进行排序
+  array.reverse()//把整个数组收尾反转
+  array.splice(n,m,p)//从索引n处开始删除m个元素，并添加p元素，并返回删除的元素
+  array.splice(n,m)//从索引n处开始删除m个元素,返回被删除的元素
+  array.splice(n,0,p)//从索引n处添加元素p，返回[]
+  array.concat(array2)//链接array和array2，array并没有被修改，该方法会返回一个新的数组
+  array.join()//把array的每个元素都用指定的字符串连接起来，并返回连接后的字符串
+  
+  ES6新方法
+  Array.isArray(arr)//判断arr是否为数组，返回true/fasle
+  Array.from()可接收三个参数，第一个参数为类数组对象，第二个参数为映射函数，如果使用了映射函数，可以传第三个参数表示映射函数的this值。
+  function translate () {
+    return Array.from(arguments, (value) => value+1);
+  }
+  let numbers = translate(1, 2, 3);
+  console.log(numbers); // [2, 3, 4]
+
+  let helper = {
+    add (value) {
+        return value+1;
+    }
+   }
+  function translate () {
+    return Array.from(arguments, helper.add, helper);
+  }
+  let numbers = translate(1, 2, 3);
+  console.log(numbers); // [2, 3, 4]
+  
+  find()方法可根据某个条件查找匹配的元素，参数为回调函数和回调函数的值，回调函数的参数为：元素、索引和数组本身
+  findIndex()方法类似，不过返回的是元素的索引值。
+  例：
+  let numbers = [1, 2, 3, 4, 5];
+  console.log(numbers.find(n => n > 3)); 
+  console.log(numbers.findIndex(n => n > 3)); 
+  numbers.find((n,index,arr)=>n>3)
+  numbers.find(function(element,index,arr){
+  return element>3;
+  })
+
+ 
+    
