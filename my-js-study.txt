@@ -91,4 +91,17 @@
   如果我们要检测对象是否拥有某一属性，可以用in操作符，返回true或false
   如果in判断一个属性存在，这个属性不一定是该对象的，它可能是该对象继承得到的
   所以用hasOwnProperty("xxx")判断对象自身是否拥有某属性
-  
+
+4.循环
+  for循环
+  for   in 循环可以把一个对象的所有属性依次循环出来
+  for(var key in json){
+   console.log(key);
+  }  
+  for in循环也可以对数组进行循环
+  for(var i in array){
+  console.log(i);//得到的是数组索引值
+  console.log(array[i]);//得到索引对应的元素的string   
+  }
+  while 循环 只有一个判断条件，条件满足，就不断循环，条件不满足时则退出循环。
+  do...while循环 它和while循环的唯一区别在于，不是在每次循环开始的时候判断条件，而是在每次循环完成的时候判断条件
