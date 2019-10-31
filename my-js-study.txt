@@ -105,3 +105,37 @@
   }
   while 循环 只有一个判断条件，条件满足，就不断循环，条件不满足时则退出循环。
   do...while循环 它和while循环的唯一区别在于，不是在每次循环开始的时候判断条件，而是在每次循环完成的时候判断条件
+
+5.ES6新对象
+  Map对象
+  var m = new Map(); // 空Map
+  m.set('Adam', 67); // 添加新的key-value
+  m.set('Bob', 59);
+  m.has('Adam'); // 是否存在key 'Adam': true
+  m.get('Adam'); // 67
+  m.delete('Adam'); // 删除key 'Adam'
+  m.get('Adam'); // undefined
+  由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉
+
+  Set对象
+  Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key
+  var s = new Set();
+  s.add(key);
+  s.delete(key);
+
+  Iterable类型
+  ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型
+  具有iterable类型的集合可以通过新的for ... of循环来遍历
+  for (var x of a) { // 遍历Array
+    console.log(x);
+  }
+  for (var x of s) { // 遍历Set
+    console.log(x);
+  }
+  for (var x of m) { // 遍历Map
+    console.log(x[0] + '=' + x[1]);
+  }
+  Iterable类型的循环推荐使用forEach()方法
+  array  forEach((element,index,arr)=>{})
+  Map    forEach((element,key,map)=>{})
+  Set    forEach((element,sameElement,set)=>{})
