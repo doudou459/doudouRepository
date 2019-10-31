@@ -19,6 +19,7 @@
 
 2.数组操作
   array.indexOf(param) 搜索指定元素的位置，未找到则返回-1
+  array.lastIndexOf(param) 从右到左搜索指定元素出现的位置，未找到则返回-1
   array.slice(n,m) //截取数组  并返回一个新的数组  
   array.slice(n)//截取数组     并返回一个新的数组
   array.push(p)//向数组末尾增加若干元素
@@ -64,5 +65,22 @@
   return element>3;
   })
 
- 
-    
+  array.forEach(function(element,index,arr){//forEach对数据进行循环，arr是数组本身,index,arr 参数可选
+   
+})
+ 或
+ array.forEach((element,index,arr)=>{
+
+})
+  array.map((element,index,arr)=>{//映射数组(遍历数组),有return 返回一个新数组 arr是数组本身,index,arr 参数可选
+   //该方法可以把一个数组映射成为新数组
+  return element+"元素";
+})
+  array.filter((element,inde,arr)=>element>3)//过滤数组，返回一个满足要求的数组 （返回大于3的元素组成的新数组）  
+  等同：array.filter((element,inde,arr)=>{return element>3})
+  array.every((element,index,arr)=>element>3)//依据判断条件，数组的元素是否全满足，若满足则返回ture
+  array.some((element,index,arr)=>element>3)// 依据判断条件，数组的元素是否有一个满足，若有一个满足则返回ture
+  array.find((element,index,arr)=>element===2)//找到第一个符合条件的数组成员
+  array.findIndex((element,index,arr)=>element===2)//找到第一个符合条件的数组成员的索引值
+  array.includes(param)//检测数组是否含有给定值，返回true/false
+  
