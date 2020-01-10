@@ -1,0 +1,716 @@
+如何解决跨域访问？
+nginx转发   拦截——转发
+cors设置请求头部信息
+access-control-allow-origin
+
+typeOf 返回那些类别？
+string object number undefined boolean function
+
+列举三种强制转换？
+praseInt praseFloat number 
+
+json字符串转json
+JSON.prase()或用 eval("("+json+")")
+
+json转json字符串
+json.stringify()
+
+列举两种隐式转换
+==和+“”
+
+==和===的区别
+==会自动转换类型，然后再比较；===不会自动转换类型，直接进行比较
+
+typeOf(null)得到的结果为 object
+
+判断变量类型的方式有哪些,优缺点？
+typeOf() 这种方式只能做基础类型判断，对于引用类型（数组、对象）等判断太粗糙，并不能有效区别数组和json对象等
+
+instanceof运算符用来判断一个构造函数的prototype属性所指向的对象是否存在另外一个要检测对象的原型链上。
+通常来讲，使用 instanceof 就是判断一个实例是否属于某种类型。
+比如   [] instanceof Object   返回true  [] instanceof Array  也返回true
+
+Object.prototype.toString.call()
+Object对象和它的原型链上各自有一个toString()方法，第一个返回的是一个函数，第二个返回的是值类型。
+Object.toString()//"function Object() { [native code] }"
+Object.prototype.toString()//"[object Object]"
+Object.prototype.toString()返回的是//"[object Type]"的形式，
+通过call将Array的this上下文切换到Object，从而调用了Object.prototype.toString()，因此返回[object Function]。
+
+AMD规范和CMD规范的区别？
+
+node.js采用CommonJS规范
+var math = require('math');
+math.add(2, 3);
+require 是同步的，适合服务器使用，但浏览器更需要异步操作，所以有了AMD和CMD解决方案
+
+
+每个文件就是一个模块，有自己的作用域。每个模块内部，module变量代表当前模块，是一个对象，它的exports属性（即module.exports）是对外的接口。
+module.exports属性表示当前模块对外输出的接口，其他文件加载该模块，实际上就是读取module.exports变量。
+为了方便，Node为每个模块提供一个exports变量，指向module.exports
+
+
+
+AMD 异步模块定义  requireJS
+AMD也采用require()语句加载模块，但是不同于CommonJS，它要求两个参数：
+require([module], callback);
+第一个参数[module]，是一个数组，里面的成员就是要加载的模块；第二个参数callback，则是加载成功之后的回调函数。如果将前面的代码改写成AMD形式，就是下面这样：
+require(['math'], function (math) {
+　　math.add(2, 3);
+});  
+虽然AMD也支持CMD的写法，同时还支持将require作为依赖项传递，但RequireJS的作者默认是最喜欢上面的写法，也是官方文档里默认的模块定义写法。
+
+CMD 通用模块定义 seaJS
+全称是Common Module Definition，即通用模块定义，其提供了模块定义和按需加载执行模块。该规范明确了模块的基本书写格式和基本的交互规则。
+define(function(require,exports,module){
+
+})
+
+exports是一个用来想外接提供模块接口的对象
+define(function(require,exports){
+    var name = 10;
+    exports.name = name;
+    exports.out = function(){
+        console.log("输出内容")
+    }
+    })
+
+
+当然导出模块还可以直接使用return的方式
+define(function(require){
+    return{
+        name:10,
+        out:function(){
+            console.log("输出内容")
+        }
+    }
+})
+提示：exports 仅仅是 module.exports 的一个引用。在 factory 内部给 exports重新赋值时，并不会改变 module.exports 的值。因此给 exports 赋值是无效的，不能用来更改模块接口。
+
+
+AMD也是支持CMD的这种写法
+
+wex5  官方说是遵循的AMD  requirejs
+
+call和apply的区别？  bind与他们的区别    bind也是改变函数的this对象的指向，但bind不是立即执行，而是生成一个新的函数
+
+这两个方法都是函数对象的方法，需要通过函数对象来调用。
+
+当函数调用call()和apply()时，函数都会立即执行。
+
+都可以用来改变函数的this对象的指向。
+
+第一个参数都是this要指向的对象（函数执行时，this将指向这个对象），后续参数用来传实参。
+
+call可以传多个参数
+apply 只能传两个参数，第一个参数为用来替换的对象，第二个参数必须是数组，即使实参只有一个也要写成数组
+
+this.callParent()的作用？
+调用父类的方法  相当于java里面的super
+
+for in 循环遍历时避免遍历原型链上的属性 使用hasOwnProperty过滤(for in 会将对象原型链上的所有属性遍历)
+或者用Object.keys()返回给定对象的自身可枚举属性组成的数组
+
+js对象的可枚举属性问题  Object.getOwnPropertyDescriptor 和 Object.defineProperty
+
+js对象的 原型对象和原型链？
+_proto_  prototype  
+_proto_和Object.getPrototypeOf()等价  f._proto_===Object.getPrototypeOf(f)
+所有的对象都拥有proto属性，它指向对象构造函数的prototype属性
+所有的函数都同时拥有proto和prototype属性，函数的proto指向自己的函数实现，函数的prototype是一个对象，所以函数的prototype也有proto属性，指向Object.prototype
+
+prototype:javascript中的每个对象都有prototype属性，Javascript中对象的prototype属性的解释是：返回对象类型原型的引用。
+
+每一个构造函数都有一个属性叫做原型。这个属性非常有用：为一个特定类声明通用的变量或者函数。
+1.1、 原型法设计模式
+
+原型法的主要思想是，现在有1个类A,我想要创建一个类B,这个类是以A为原型的,并且能进行扩展。我们称B的原型为A。
+
+1.2、javascript的方法可以分为三类：
+
+a 类方法
+
+b 对象方法
+
+c 原型方法
+
+给prototype添加属性  prototype是一个对象，因此，你能够给它添加属性。你添加给prototype的属性将会成为使用这个构造函数创建的对象的通用属性。
+构造函数在创建对象时 将会把它的属性prototype赋给新对象的内部属性__proto__（原型对象）
+当原型方法和对象方法在调用相同的属性和函数时，会执行对象方法里面的属性和函数。(对象属性优先于原型属性)
+A.prototype = new B();
+理解prototype不应把它和继承混淆。A的prototype为B的一个实例，可以理解A将B中的方法和属性全部克隆了一遍。A能使用B的方法和属性。这里强调的是克隆而不是继承。可以出现这种情况：A的prototype是B的实例，同时B的prototype也是A的实例。
+
+对象方法与通过new创建对象的重要区别
+
+这个区别就是function定义的方法(对象方法)有一个prototype属性，使用new生成的对象就没有这个prototype属性。也就是prototype属性是对象方法或者构造方法的专有属性。
+function Person(name)  
+{  
+   this.name=name;  
+   this.showMe=function()  
+        {  
+           alert(this.name);  
+        }  
+};    
+var one=new Person('js');    
+alert(one.prototype)//undefined  
+alert(typeof Person.prototype);//object  
+alert(Person.prototype.constructor);//function Person(name) {...};  
+
+
+闭包是什么，有什么特性，对页面有什么影响
+闭包就是能够读取其他函数内部变量的函数，使得函数不被GC回收，如果过多使用闭包，容易导致内存泄露。
+
+如何阻止冒泡事件和默认事件
+阻止冒泡：ie：event.cancelBubble(),非ie：event.stopPropagation()
+阻止默认事件：event.preventDefault()
+
+document load 和document ready的区别
+
+document.onload 是在结构和样式、外部js以及图片加载完之后再执行
+document.ready是dom树创建完成后就执行   原生中没有该方法，jquery中有$().ready(function)
+
+null和undefined的区别
+null是一个表示"无"的对象，转为数值时为0；undefined是一个表示"无"的原始值，转为数值时为NaN。
+
+
+当声明的变量还未被初始化时，变量的默认值为undefined。 
+null用来表示尚未存在的对象
+
+undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义。
+
+
+
+cookie  可以由服务器或客户端设置，并且可设置失效时间   但最大只能4KB,并且每次请求将发往服务器
+localStorage  用于持久化的本地存储，除非主动删除数据，否则数据是永远不会过期的。同源可以读取并修改数据
+sessionStorage 用于本地存储一个会话中的数据，这些数据只有在同一个会话中的页面才能访问，会话结束后数据将销毁
+
+ajax  get 和post 的区别
+get是将参数放进url内，并且有长度限制，大约2000个字符  POST请求会把请求的数据放置在HTTP请求包的包体中
+
+事件委托是什么？
+利用冒泡原理，将各级元素的事件统一由某一个父组件的绑定函数代理。
+
+添加 删除 替换 插入元素到某个节点
+创建新节点   createElement()
+添加元素到某个节点
+appendChild()
+移除某个节点
+removeChild()
+替换
+replaceChild()
+插入
+insertBefore()
+查找
+getElementByTagName()
+getElementByName()
+getElementById()
+
+可视区
+window.innerHeight 和window.innerWidth  可视区高度和宽度（不包含滚动条和工具）
+window.outerHeight 和window.outerWidth  窗口外部高度和宽度（包含滚动条和工具）
+document.body.clienHeight 和document.body.clienWidth  对象的可视高度和宽度（不包含滚动条）
+innerHTML(元素内包含的内容）
+
+outerHTML(自己以及元素内的内容）
+
+offsetWidth （content宽度+padding宽度+border宽度）
+
+
+offsetHeight（content高度+padding高度+border高度）
+
+
+clientWidth（content宽度+padding宽度）
+
+
+clientHeight（content高度+padding高度）
+
+
+四种定位的区别
+static 静态 默认值 （忽略 top, bottom, left, right 或者 z-index 声明）
+relative 相对定位 相对于自身原有位置进行偏移，仍处于标准文档流中，原有位置将出现空白
+absolute 绝对定位 相对于最近的非static定位的父元素定位，完全脱离标准文档流
+fixed 相对于视窗定位
+
+setTimeout()延迟执行（只执行一次）  setInterval()每隔一段时间重复执行，需要clearInterval()来关闭
+
+css选择器优先级
+ID>类>标签>相邻>子选择器>后代选择器>*>属性>伪类>伪元素
+
+伪类  :active :hover 
+伪元素  ::befor ::after
+
+
+CSS的浮动高度塌陷
+浮动高度塌陷就是子元素设置浮动属性，父元素不设置高度，则父元素不会被子元素的高度撑起来。
+原因是浮动（foat）将脱离文档流
+
+html5语义化
+就是用合理、正确的标签来展示内容，易于维护阅读、有利于SEO
+
+为什么把css的<link>放在head，而把js的script 放在body的最后
+把css的<link>放在head是规范要求，并且link是使用href的形式标记超文本引用，
+将当前元素和引用资源建立联系，在资源下载过程中并不会中断文档处理和html解析，
+所以放在头部可以更快的为用户呈现页面的样式和布局
+js的script 是以src的形式引用资源，在下载资源的时候会中断文档处理和html解析，
+如果放在头部，将影响页面的正常解析，故将其放在body末尾（html解析完毕之后）
+
+
+img中的alt和元素的title属性的作用
+如果无法显示图像，浏览器将显示alt指定的内容，title是鼠标移动到元素上时显示的内容
+
+inline   inline-block  block
+
+inline 行内元素   设置高宽无效   margin仅设置左右方向有效   不会自动换行
+inline-blick 行内块元素   不会自动换行  能够识别高宽  默认从左到右排列
+block 能够识别高宽  margin上下左右均有效 自动换行  默认从上至下排列
+
+z-index  控制重叠元素的垂直叠加顺序，z-index只能影响position值不是static的元素
+z-index 是相对于父元素的而不是相对于body或window  
+如果A元素是在B元素之下，那么A元素的子元素无论z-index多大  都会在B元素之下
+非静态定位的元素（及其子元素）将始终覆盖静态定位（static）的元素
+
+有什么方式可以隐藏元素
+1.visibility:hidden  元素仍然在页面流中，并占用空间
+2.width:0;height:0  使元素不占屏幕上的任何空间，导致其不显示
+3.position:absolute;left:-999999px;将元素放置在屏幕之外
+4.opacity:0 设置为全透明（其点击事件仍然有效）
+5.display:none  元素不占用空间也不可见，但在html中有该标签存在
+
+水平垂直居中的方式
+flex方式
+父容器
+display:flex;
+justify-content:center;
+aligh-items:center;
+
+position方式
+父容器
+position:relative;
+子容器
+position:absolute;
+margin:auto;
+top:0;
+bottom:0;
+left:0;
+right:0;
+
+position+transform方式
+父容器
+position:relative;
+子容器
+position:absolute;
+margin:auto;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+
+
+文本超出部分显示省略号
+单行
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+
+多行
+display:-webkit-box;
+-weblit-box-orient:vertical;
+-webkit-line-clamp:3;
+overfolw:hidden;
+
+
+Accept 和Content-Type
+Accept 请求头   Content-Type是实体头
+Accept代表发送端（客户端）希望接受的数据类型
+Content-Type 代表发送端（客户端或服务器）发送的实体数据类型
+application/www-form-urlencoded
+application/json
+multipart/form-data
+application/xml
+
+ajax原理
+
+1.创建XMLHttpRequest对象
+   var xmlhttp=new XMLHttpRequest();
+2.设置并发送请求
+   xmlhttp.open("GET","url",true)//参数分别是 requestType,请求链接，async
+   xmlhttp.send();
+3.onreadystatechange事件
+   readyState(0-4)
+   0 - (未初始化)还没有调用send()方法
+   1 - (载入)已调用send()方法，正在发送请求
+   2 - (载入完成)send()方法执行完成，
+   3 - (交互)正在解析响应内容
+   4 - (完成)响应内容解析完成，可以在客户端调用了
+   status(200或30x)
+4.请求响应
+   responseText 和responseXML
+完整例子：
+  var xmlhttp=new XMLHttpRequest();
+      xmlhttp.open("GET","ajax_info.txt",true);
+      xmlhttp.send();
+      xmlhttp.onreadystatechange=function()
+      { 
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+          document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+         }
+       }
+
+$.ajax({
+async:true,//是否异步
+cache:false,//是否缓存
+contentType:application/x-www-form-urlencoded,
+data:{
+
+},
+url:XXX,
+success:function(data){
+
+},
+error:function(e){
+
+}
+
+})
+
+1.字符串操作
+  str.toUpperCase()把字符串全部变为大写
+  str.toLowerCase()把字符串全部变为小写
+  str.indexOf("s")返回字符s在str中的位置，如果str中没有s则返回-1
+  str.slice(n,m)返回索引n-m之间的字符串
+  str.slice(n)返回索引n到结束的字符串
+  str.substring(n,m)返回索引n-m之间的字符串
+  str.substring(n)返回索引n到结束的字符串
+  str.substr(n,m)   参数1: 索引, 参数2:要截取的长度
+  str.split(",")将字符串以 , 分割成数组
+  str.replace(/[0-9]+/g,"b")将str中的a替换为b
+  str.trim()去除str中前后的空格
+  str.search(/[0-9]+/g) // 返回匹配到的第一个字符串的索引, 没有匹配到, 返回-1
+
+  ES6新方法
+  str.includes("a") 检测字符串中是否包含指定字符串，包含返回true，否则返回false
+  str.startWith("a")检测字符串是否以指定字符串开头，返回true/false
+  str.endsWith("a")检测字符串是否以指定字符串结尾，返回true/false 
+
+2.数组操作
+  array.indexOf(param) 搜索指定元素的位置，未找到则返回-1
+  array.lastIndexOf(param) 从右到左搜索指定元素出现的位置，未找到则返回-1
+  array.slice(n,m) //截取数组  并返回一个新的数组  
+  array.slice(n)//截取数组     并返回一个新的数组
+  array.push(p)//向数组末尾增加若干元素
+  array.pop（）//删除最后一个元素
+  array.unshift(p)//向数组头部增加若干元素
+  array.shift()//删除数组第一个元素
+  array.sort()//按unicode进行排序
+  array.reverse()//把整个数组收尾反转
+  array.splice(n,m,p)//从索引n处开始删除m个元素，并添加p元素，并返回删除的元素
+  array.splice(n,m)//从索引n处开始删除m个元素,返回被删除的元素
+  array.splice(n,0,p)//从索引n处添加元素p，返回[]
+  array.concat(array2)//链接array和array2，array并没有被修改，该方法会返回一个新的数组
+  array.join()//把array的每个元素都用指定的字符串连接起来，并返回连接后的字符串
+  
+  ES6新方法
+  Array.isArray(arr)//判断arr是否为数组，返回true/fasle
+  Array.from()可接收三个参数，第一个参数为类数组对象，第二个参数为映射函数，如果使用了映射函数，可以传第三个参数表示映射函数的this值。
+  function translate () {
+    return Array.from(arguments, (value) => value+1);
+  }
+  let numbers = translate(1, 2, 3);
+  console.log(numbers); // [2, 3, 4]
+
+  let helper = {
+    add (value) {
+        return value+1;
+    }
+   }
+  function translate () {
+    return Array.from(arguments, helper.add, helper);
+  }
+  let numbers = translate(1, 2, 3);
+  console.log(numbers); // [2, 3, 4]
+  
+  find()方法可根据某个条件查找匹配的元素，参数为回调函数和回调函数的值，回调函数的参数为：元素、索引和数组本身
+  findIndex()方法类似，不过返回的是元素的索引值。
+  例：
+  let numbers = [1, 2, 3, 4, 5];
+  console.log(numbers.find(n => n > 3)); 
+  console.log(numbers.findIndex(n => n > 3)); 
+  numbers.find((n,index,arr)=>n>3)
+  numbers.find(function(element,index,arr){
+  return element>3;
+  })
+
+  array.forEach(function(element,index,arr){//forEach对数据进行循环，arr是数组本身,index,arr 参数可选
+   
+})
+ 或
+ array.forEach((element,index,arr)=>{
+
+})
+  array.map((element,index,arr)=>{//映射数组(遍历数组),有return 返回一个新数组 arr是数组本身,index,arr 参数可选
+   //该方法可以把一个数组映射成为新数组
+  return element+"元素";
+})
+  array.filter((element,inde,arr)=>element>3)//过滤数组，返回一个满足要求的数组 （返回大于3的元素组成的新数组）  
+  等同：array.filter((element,inde,arr)=>{return element>3})
+  array.every((element,index,arr)=>element>3)//依据判断条件，数组的元素是否全满足，若满足则返回ture
+  array.some((element,index,arr)=>element>3)// 依据判断条件，数组的元素是否有一个满足，若有一个满足则返回ture
+  array.find((element,index,arr)=>element===2)//找到第一个符合条件的数组成员
+  array.findIndex((element,index,arr)=>element===2)//找到第一个符合条件的数组成员的索引值
+  array.includes(param)//检测数组是否含有给定值，返回true/false
+
+3.js对象
+
+  访问属性是通过.操作符完成的，但这要求属性名必须是一个有效的变量名。
+  如果属性名包含特殊字符，就必须用''括起来，并且调用时必须使用["xxx"]形式
+  如果我们要检测对象是否拥有某一属性，可以用in操作符，返回true或false
+  如果in判断一个属性存在，这个属性不一定是该对象的，它可能是该对象继承得到的
+  所以用hasOwnProperty("xxx")判断对象自身是否拥有某属性
+
+4.循环
+  for循环
+  for   in 循环可以把一个对象的所有属性依次循环出来
+  for(var key in json){
+   console.log(key);
+  }  
+  for in循环也可以对数组进行循环
+  for(var i in array){
+  console.log(i);//得到的是数组索引值
+  console.log(array[i]);//得到索引对应的元素的string   
+  }
+  while 循环 只有一个判断条件，条件满足，就不断循环，条件不满足时则退出循环。
+  do...while循环 它和while循环的唯一区别在于，不是在每次循环开始的时候判断条件，而是在每次循环完成的时候判断条件
+
+5.ES6新对象
+  Map对象
+  var m = new Map(); // 空Map
+  m.set('Adam', 67); // 添加新的key-value
+  m.set('Bob', 59);
+  m.has('Adam'); // 是否存在key 'Adam': true
+  m.get('Adam'); // 67
+  m.delete('Adam'); // 删除key 'Adam'
+  m.get('Adam'); // undefined
+  由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉
+
+  Set对象
+  Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key
+  var s = new Set();
+  s.add(key);
+  s.delete(key);
+
+  Iterable类型
+  ES6标准引入了新的iterable类型，Array、Map和Set都属于iterable类型
+  具有iterable类型的集合可以通过新的for ... of循环来遍历
+  for (var x of a) { // 遍历Array
+    console.log(x);
+  }
+  for (var x of s) { // 遍历Set
+    console.log(x);
+  }
+  for (var x of m) { // 遍历Map
+    console.log(x[0] + '=' + x[1]);
+  }
+  Iterable类型的循环推荐使用forEach()方法
+  array  forEach((element,index,arr)=>{})
+  Map    forEach((element,key,map)=>{})
+  Set    forEach((element,sameElement,set)=>{})
+
+servlet 
+通过调用init()方法进行初始化
+init 方法被设计成只调用一次。它在第一次创建 Servlet 时被调用，在后续每次用户请求时不再调用。
+service()方法处理客服端请求
+service() 方法是执行实际任务的主要方法。
+每次服务器接收到一个 Servlet 请求时，服务器会产生一个新的线程并调用服务。service() 方法检查 HTTP 请求类型（GET、POST、PUT、DELETE 等），并在适当的时候调用 doGet、doPost、doPut，doDelete 等方法。
+service() 方法由容器调用，service 方法在适当的时候调用 doGet、doPost、doPut、doDelete 等方法
+destroy()方法终止
+
+servlet请求实际是实现HttpServlet抽象类  所以要继承（extends） HttpServlet
+
+servlet 配置web.xml
+配置servlet
+<servlet>
+  <servlet-name>
+  <servlet-class>
+  <load-on-startup>
+  <init-params>
+<servlet-mapping>
+
+ servlet、filter、listener是配置到web.xml中
+（web.xml 的加载顺序是：context-param -> listener -> filter -> servlet ）
+
+
+spring  web.xml配置
+
+定义applicationContext.xml文件位置
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:spring.xml</param-value>
+</context-param>
+定义spring监听器，加载spring
+<listener>
+　　<listener-class>
+       org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+</listener>
+
+
+     <!-- 3、配置SpringMVC的分发处理Servlet，利用此Servlet找到所有的Action -->
+     <servlet>
+         <servlet-name>SpringMVCServlet</servlet-name>
+         <servlet-class>
+             org.springframework.web.servlet.DispatcherServlet  
+         </servlet-class>
+         <!-- 此时配置的是SpringMVC的启动文件，该配置文件不要重复的加载 -->
+        <init-param>
+             <param-name>contextConfigLocation</param-name>
+             <param-value>classpath:spring/spring-mvc.xml</param-value>
+         </init-param>
+     </servlet>
+     <servlet-mapping>
+         <servlet-name>SpringMVCServlet</servlet-name>
+         <url-pattern>*.action</url-pattern> <!-- 设置访问处理路径 -->
+         <url-pattern>/</url-pattern><!-- 静态资源映射 -->
+     </servlet-mapping>
+
+
+springMVC工作原理   
+
+用户发送的请求将发送到前端控制器（中央处理器  DispatcherServlet）
+然后中央处理器调用处理器映射器（HandlerMapping）找到controller的地址(Hander)并返回给中央处理器
+中央处理器调用处理器适配器(HandlerAdapter)调用具体的controller
+controller 执行完成后返回ModelAndView 处理器适配器将结果反馈给中央处理器
+中央处理器将ModelAndView传给视图解析器ViewResolver
+ViewResolver解析后返回具体view给中央处理器
+中央处理器再跟进view进行视图渲染并响应给用户
+
+DispatcherServlet => HandlerMapping=>Hander=>DispatcherServlet
+DispatcherServlet=>HanderAdapter=>ModelView=>DispatcherServlet
+DispatcherServlet=>ViewResolver=>view=>DispatcherServlet
+DispatcherServlet=>响应用户
+
+
+spring 主要两大功能  IoC 和AOP
+IoC  Inversion of Control 控制反转   控制反转主要是依赖注入
+IoC容器：具有依赖注入功能的容器，可以创建对象的容器。
+IoC容器负责实例化、定位、配置应用程序中的对象并建立这些对象之间的依赖。
+@Component @Controller @Service @Repository @Bean @Scope(设置多例或单例，默认是单例)
+@Autowired   @Resource
+AOP  
+切面（Aspect）：共有功能的实现。如日志切面、权限切面、验签切面等。在实际开发中通常是一个存放共有功能实现的标准Java类。当Java类使用了@Aspect注解修饰时，就能被AOP容器识别为切面。
+通知（Advice）：切面的具体实现。就是要给目标对象织入的事情。以目标方法为参照点，根据放置的地方不同，可分为前置通知（Before）、后置通知（AfterReturning）、异常通知（AfterThrowing）、最终通知（After）与环绕通知（Around）5种。在实际开发中通常是切面类中的一个方法，具体属于哪类通知，通过方法上的注解区分。
+连接点（JoinPoint）：程序在运行过程中能够插入切面的地点。例如，方法调用、异常抛出等。Spring只支持方法级的连接点。一个类的所有方法前、后、抛出异常时等都是连接点。
+切入点（Pointcut）：用于定义通知应该切入到哪些连接点上。不同的通知通常需要切入到不同的连接点上，这种精准的匹配是由切入点的正则表达式来定义的。
+目标对象（Target）：那些即将切入切面的对象，也就是那些被通知的对象。这些对象专注业务本身的逻辑，所有的共有功能等待AOP容器的切入。
+代理对象（Proxy）：将通知应用到目标对象之后被动态创建的对象。可以简单地理解为，代理对象的功能等于目标对象本身业务逻辑加上共有功能。代理对象对于使用者而言是透明的，是程序运行过程中的产物。目标对象被织入共有功能后产生的对象。
+织入（Weaving）：将切面应用到目标对象从而创建一个新的代理对象的过程。这个过程可以发生在编译时、类加载时、运行时。Spring是在运行时完成织入，运行时织入通过Java语言的反射机制与动态代理机制来动态实现。
+
+@Aspect
+@Component
+定义切面类（即通知类）
+@Piontcut 定义切入点（定义一个空方法，具体通知方法需要将该方法作为参数）
+@Before 定义前置通知
+@AfterReturning 定义后置通知
+@Around 定义环绕通知
+
+
+@SpringBootApplication
+    @SpringBootConfiguration  标识为配置类
+    @EnableAutoConfiguration  开启自动配置，即自动创建bean
+    @ComponetScan             开启扫描
+@MapperScan    mapper扫包
+
+@RestController 定义controller类
+  @Controller+@ResponseBody
+
+@RequestMapping 设置请求路径
+
+@RequestBody和RequestParam
+application/json、application/xml等请求体众的数据用RequestBody
+
+
+SQL
+
+SELECT 列名称 FROM 表名称 WHERE XXX
+
+INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)
+
+UPDATE Person SET Address = 'Zhongshan 23', City = 'Nanjing' WHERE LastName = 'Wilson'
+
+DELETE FROM 表名称 WHERE 列名称 = 值
+
+
+mybatis  
+
+@Select @Update 
+
+#{}表示一个占位符号，可防止SQL注入
+${}表示拼接sql
+
+
+
+1.git config --global user.name "XXX"
+  git config --global user.email"XXX"
+2.git init
+3.git add "XXX"
+  git commit -m  "ssssss"
+4.git log  查看历史记录
+5.git reset --hard HEAD  HEAD^ HEAD^^  HEAD~100  版本回退用HEAD
+6.git reset --hard  commit_id 通过版本ID 回退到固定ID号的版本
+7.git reflog 查看历史命令
+8.缓存区的概念——git add 是将修改提交到缓存区 git commit是将缓存区的修改提交    git管理的是文件的修改  而不是文件
+9.git checkout --file 就是让这个文件回到最近一次git commit或git add时的状态    命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令
+10.git status 查看状态
+11.git rm file  删除文件
+12.git remote add origin https://github.com/doudou459/doudouRepository.git
+关联远程仓库
+13.git push -u origin master 将本地仓库内容推送到远程仓库
+14.git clone https://github.com/doudou459/doudouRepository.git
+15.git branch branchName  新建分支
+   git checkout branchName  切换到分支
+   git checkout -b branchName 新建分支并切换到分支
+   git switch -c branchName 新建分支并切换到分支（新方法）
+   git switch branchName 切换到分支（新方法）    
+16.git branch 查看分支
+17.git merge 将分支合并到当前分支
+18.git branch -d branchName 删除分支
+19.修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+   当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场；
+   在master分支上修复的bug，想要合并到当前dev分支，可以用git cherry-pick <commit>命令，把bug提交的修改“复制”到当前分支，避免重复劳动。
+20.开发一个新feature，最好新建一个分支；
+   如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除。
+21.多人协作的工作模式通常是这样：
+
+首先，可以试图用git push origin <branch-name>推送自己的修改；
+
+如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
+
+如果合并有冲突，则解决冲突，并在本地提交；
+
+没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！
+
+如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令git branch --set-upstream-to <branch-name> origin/<branch-name>。
+
+这就是多人协作的工作模式，一旦熟悉了，就非常简单。
+
+小结
+查看远程库信息，使用git remote -v；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用git push origin branch-name，如果推送失败，先用git pull抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用git checkout -b branch-name origin/branch-name，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
+
+从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
+22.命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id；
+
+命令git tag -a <tagname> -m "blablabla..."可以指定标签信息；
+
+命令git tag可以查看所有标签。
+
+
+mvn clean compile  编译
+
+mvn clean package  打包
