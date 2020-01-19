@@ -515,6 +515,18 @@ error:function(e){
   Map    forEach((element,key,map)=>{})
   Set    forEach((element,sameElement,set)=>{})
 
+
+  for(let i=0;i<array.length;i++){
+   for(let j=0;j<i-1;j++){
+   if(array[j]<array[j+1]){
+   let m=array[j+1];
+    array[j]=m 
+   }
+  }
+  }
+
+
+
 servlet 
 通过调用init()方法进行初始化
 init 方法被设计成只调用一次。它在第一次创建 Servlet 时被调用，在后续每次用户请求时不再调用。
