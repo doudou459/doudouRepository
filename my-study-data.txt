@@ -693,6 +693,25 @@ spring boot annotation 自定义注解
 
 @Scheduled//注解创建定时任务
 
+org.springframework.util.Assert;断言工具  Assert.state;Assert.isTrue;Assert.isNull;Assert.notNull;Assert.notEmpty
+
+
+shiro   
+
+Shiro的核心概念有三个：Subject，SecurityManager 和 Realms。
+Authentication 身份认证/登录认证
+Authorization  授权，即角色或权限验证
+Session Manager 会话管理，用户登录后的session管理
+Cryptography 加密
+Caching 缓存
+Concurrency 多线程并发验证
+Remember Me 记住我，登录后，下次再来的话不用再登录
+
+springboot 整合shiro 并开启注解
+ShiroConfig=>  shiroFilterFactoryBean  defaultWebSecurityManager  authorizationAttributeSourceAdvisor  defaultAdvisorAutoProxyCreator
+ShiroExceptionHandler  全局异常捕获  =>@ControllerAdvice  @ExceptionHandler @ResponseBody
+realm设置  =>extends AuthorizingRealm  doGetAuthorizationInfo  doGetAuthenticationInfo
+sessionManage  => extends DefaultWebSessionManager String id = WebUtils.toHttp(request).getHeader 通过请求头获取id  super.getSessionId(request, response)  默认是通过cookie session 获取ID 
 
 SQL
 
